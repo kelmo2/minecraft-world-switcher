@@ -7,6 +7,12 @@ def changeWorld(list, world):
 		if "level-name" in list[index]:
 			list[index] = "level-name:{}\n".format(world)
 
+#Change the world to start on the minecraft server
+def changeMode(list, mode):
+	for index, str in enumerate(list):
+		if "gamemode" in list[index]:
+			list[index] = "gamemode={}\n".format(mode)
+
 #Read in the server.properties file line by line and store in a list
 with open('server.properties', 'r') as file:
     # read a list of lines into data
@@ -24,9 +30,11 @@ for i, folder in enumerate(folders):
 
 size = len(folders)-1
 
-response = raw_input("Please enter a number from the list: ")
+##############################################################
+###################CHANGE GAME WORLD##########################
+##############################################################
+response = raw_input("Please pick a world from the list: ")
 flag = "false"
-
 
 while flag == "false":
 	response = int(response)
@@ -36,10 +44,32 @@ while flag == "false":
 	else:
 		response = raw_input("Wrong input, try again: ")
 
-done = raw_input("World switched, press any key to continue...")
+changeWorld(data, folders[response])
+
+##############################################################
+###################CHANGE GAME MODE###########################
+##############################################################
+modes = ["1: Survial", "2: Creative", "3: Adventure", "4: Spectator"]
+
+for i, mode in enumerate(modes):
+	print "{}".format(mode)
+size = len(modes)-1
+
+response = raw_input("Please pick a mode from the list: ")
+flag = "false"
+
+while flag == "false":
+	response = int(response)
+	response -= 1
+	if (0 <= response <= size):
+		flag = "true"
+	else:
+		response = raw_input("Wrong input, try again: ")
+
+done = raw_input("press any key to continue...")
 
 #Call function to change the world
-changeWorld(data, folders[response])
+changeMode(data, response)
 
 # and write everything back
 with open('server.properties', 'w') as file:
