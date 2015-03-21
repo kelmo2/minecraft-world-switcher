@@ -1,1 +1,0 @@
-#Script to switch the world on a server in minecraft
